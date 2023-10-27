@@ -1,1 +1,109 @@
-<p>incident works!</p>
+
+<div class="py-5 p-4 d-flex flex-column">
+    <div *ngIf="!this.showSpinner; else noSpinner" class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only"></span>
+        </div>
+    </div>
+    <ng-template #noSpinner>
+    <table class="py-2 table table-bordered table-hover" id="incident-table">
+        
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Severidad
+                    </a>
+                    <div class="dropdown-menu">
+                        <li><a class="dropdown-item" (click)="incidentBySeverity('leve')">Leve</a></li>
+                        <li><a class="dropdown-item" (click)="incidentBySeverity('media')">Media</a></li>
+                        <li><a class="dropdown-item" (click)="incidentBySeverity('grave')">Grave</a></li>
+
+                    </div>
+                </th>
+                <!--<th scope="col">Resuelta</th>-->
+                <th scope="col">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Estado
+                    </a>
+                    <div class="dropdown-menu">
+                        <li><a class="btn dropdown-item" id="myInput" (click)="incidentByState('true')">Completas</a>
+                        </li>
+                        <li><a class="dropdown-item" (click)="incidentByState('false')">Incompletas</a></li>
+                    </div>
+                </th>
+                <th scope="col">Fecha</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let incident of ListarIncident"
+                [ngClass]="{'table-secondary': incident.completed, 'table-primary': !incident.completed}">
+                <!-- Contenido de la fila de la tabla -->
+                <td>{{ incident._id }}</td>
+                <td>{{ incident.title }}</td>
+                <td>{{ incident.description }}</td>
+                <td>{{ incident.user }}</td>
+                <td [ngClass]="{'table-danger':incident.severity==='grave' && !incident.completed,'' :false}">{{
+                    incident.severity}}</td>
+                <td *ngIf="incident.completed; else no">Resuelta</td>
+                <ng-template #no>
+                    <td>No Resuelta</td>
+                </ng-template>
+                <td>{{ incident.create_at | date:'yyyy-MM-dd H:mm' }}</td>
+                <td *ngIf="incident.completed; else completed">
+                    <button type="button" class="btn btn-warning"
+                        (click)="changeState(incident._id, incident.completed)">Descompletar</button>
+                </td>
+                <ng-template #completed>
+                    <td>
+                        <button type="button" class="btn btn-success"
+                            (click)="changeState(incident._id,incident.completed)">Completar</button>
+                    </td>
+                </ng-template>
+                <td>
+                    <!-- Button trigger modal -->
+                    <button (click)="getId(incident._id)" type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Eliminar
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Esta seguro de eliminar la incidencia?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Regresar</button>
+                                    <button (click)="delete()" type="button" data-bs-dismiss="modal"
+                                        class="btn btn-danger">Si,
+                                        Eliminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="showWarning" class="alert alert-warning">
+        No se encontraron registros.
+    </div>
+    </ng-template>
+</div>

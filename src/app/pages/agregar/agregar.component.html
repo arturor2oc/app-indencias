@@ -1,0 +1,73 @@
+<div class="p-2 d-flex flex-column align-items-center">
+    <div *ngIf="!this.showSpinner; else noSpinner" class="col-auto mt-3 py-4">
+        <div class="spinner-border" role="status">
+          <span class="sr-only"></span>
+        </div>
+    </div>
+    <ng-template #noSpinner>
+    <h1 class="mt-3">Nueva incidencia</h1>
+    <div class="card">
+        <div class="card-body">
+            <form>
+                <div class="mb-3">
+                    <label for="titulo">Titulo:</label>
+                    <input [(ngModel)]="incident.title" type="text" class="form-control"
+                        placeholder="Titulo de la incidencia" name="titulo" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="user">Usuario:</label>
+                    <input [(ngModel)]="incident.user" type="text" class="form-control" placeholder="Usuario"
+                        name="user" />
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="description">Descripcion:</label>
+                    <textarea [(ngModel)]="incident.description" class="form-control" placeholder="Descripcion"
+                        name="description" rows="4" cols="50"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="severity">Severidad:</label>
+                    <select [(ngModel)]="incident.severity" class="form-select" name="severity" aria-label="Default select">
+                        <option value="leve">Leve</option>
+                        <option value="media">Media</option>
+                        <option value="grave">Grave</option>
+                    </select>
+                </div>
+                <div class="p-4 d-flex flex-row justify-content-around">
+                    <button type="submit" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+                    <!-- Button trigger modal -->
+                    <button (click)="agregar()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Guardar
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Mensaje</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p *ngIf="showModal; else no">{{msg}}</p>
+                                    <ng-template #no>
+                                        <p>{{msg}}</p>
+                                    </ng-template>
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <a   href="#" type="button" class="btn btn-danger">OK</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </ng-template>
+</div>

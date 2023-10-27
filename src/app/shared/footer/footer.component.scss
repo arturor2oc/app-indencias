@@ -1,0 +1,22 @@
+.site-footer
+{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333; /* Color de fondo del footer */
+  color: #737373; /* Color del texto del footer */
+  padding: 20px; /* Espaciado interno */
+  text-align: center; /* Alineación del contenido al centro */
+}
+
+.site-footer a
+{
+  color:#737373;
+  text-decoration:none;
+}
+.site-footer a:hover
+{
+  color:#3366cc;
+  text-decoration:none;
+}
